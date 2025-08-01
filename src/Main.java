@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 public class Main {
     public static void main(String[] args) {
         TaskList taskList = new TaskList();
-        int id = 0;
         Scanner input = new Scanner(System.in);
 
         while (true) {  // Added loop to keep program running
@@ -24,7 +23,7 @@ public class Main {
                     String description = parts[1];  // Rest is description
                     LocalDateTime now = LocalDateTime.now();
                     Task task = new Task(
-                            ++id,  // Pre-increment to avoid needing +=
+                            java.util.UUID.randomUUID().toString(),
                             description,
                             now,
                             now
@@ -34,12 +33,25 @@ public class Main {
                     break;
 
                 case "update":
-                    System.out.println("task updated");
-                    break;  // Added missing break
+                    String[] updateParts = parts[1].split(" ", 2); // Split ID and description
+                    if (updateParts.length < 2) {
+                        System.out.println("Usage: update <task-id> <new-description>");
+                        break;
+                    }
+                    taskList.updateTask(updateParts[0], updateParts[1]);
+                    break;
 
                 case "delete":
-                    System.out.println("task deleted");
+                    String[] deleteParts = parts[1].split(" ", 2);
+                    taskList.deleteTask(deleteParts[0]);
                     break;  // Added missing break
+
+                case "mark-in-progress":
+
+                    break;
+
+                case "mark-done":
+                    break;
 
                 default:
                     System.out.println("Unknown command: " + command);

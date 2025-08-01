@@ -1,16 +1,17 @@
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Task {
 
     public enum Status { TODO, IN_PROGRESS, DONE }
 
-    private int id;
+    private String id;
     private String description;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private Status status;
 
-    public Task(int id, String description, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Task(String id, String description, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.description = description;
         this.createdAt = createdAt;
@@ -20,9 +21,10 @@ public class Task {
 
     // Getters and setters
     public Status getStatus() { return status; }
-    public int getId() { return id; }
+    public String getId() { return id; }
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
+    public void setUpdatedAt(LocalDateTime now) { this.updatedAt = now; }
 
     // Helper method to mark task as done
     public void markAsDone() { this.status = Status.DONE; }
@@ -30,6 +32,12 @@ public class Task {
 
     @Override
     public String toString() {
-        return String.format("[%d] %s %s %s", id, description, createdAt, updatedAt);
+        return String.format("[%d][%s] %s (Created: %s, Updated: %s)",
+                id,
+                status.toString().toLowerCase(), // Shows "todo", "in_progress", "done"
+                description,
+                createdAt.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
+                updatedAt.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+        );
     }
 }
