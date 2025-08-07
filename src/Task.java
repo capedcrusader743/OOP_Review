@@ -25,6 +25,8 @@ public class Task {
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
     public void setUpdatedAt(LocalDateTime now) { this.updatedAt = now; }
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public LocalDateTime getUpdatedAt() { return updatedAt; }
 
     // Helper method to mark task as done
     public void markAsDone() { this.status = Status.DONE; }
@@ -32,7 +34,7 @@ public class Task {
 
     @Override
     public String toString() {
-        return String.format("[%d][%s] %s (Created: %s, Updated: %s)",
+        return String.format("[%s][%s] %s (Created: %s, Updated: %s)",
                 id,
                 status.toString().toLowerCase(), // Shows "todo", "in_progress", "done"
                 description,
